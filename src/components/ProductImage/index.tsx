@@ -1,5 +1,5 @@
 import s from "./ProductImage.module.scss";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface Props {
   src: string;
@@ -8,21 +8,15 @@ interface Props {
 
 export const ProductImage = ({ src, alt }: Props) => {
   const [hasError, setHasError] = useState(false);
-  useEffect(() => {
-    if (alt === "Кофе арабика") {
-      setHasError(true);
-    }
-  }, [alt]);
-  if (hasError) {
-    return (
-      <div className={s.ProductImage}>
-        <img src="./nophoto.png" alt="placeholder" />
-      </div>
-    );
-  }
+  const currentSrc = hasError || src === "" ? "./nophoto.png" : src;
+  const currentAlt = hasError || src === "" ? "Нет фото" : alt;
   return (
     <div className={s.ProductImage}>
-      <img src={src} alt={alt} onError={() => setHasError(true)} />
+      <img
+        src={currentSrc}
+        alt={currentAlt}
+        onError={() => setHasError(true)}
+      />
     </div>
   );
 };
